@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Nav from '@/components/Nav';
+import { useRouter } from 'next/router';
 
 const Dashboard = () => {
   const [dogs, setDogs] = useState([]);
@@ -8,19 +9,28 @@ const Dashboard = () => {
   const [breed, setBreed] = useState('');
   const [age, setAge] = useState('');
   const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
+    
+    // const token = localStorage.getItem('token');
+    // if (!token) {
+    //   router.push('/');
+    //   return;
+    // }
+
     const fetchDogs = async () => {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId'); // Retrieve the user ID from localStorage
-  
+    
+      
       if (!userId) {
         console.error('User ID not found in localStorage');
         return;
       }
   
       try {
-        const response = await axios.get('http://localhost:1337/api/dogs', {
+        const response = await axios.get('https://backend-dog-walking.onrender.com/api/dogs', {
           params: {
             'filters[users_permissions_user][id][$eq]': userId, // Use correct relation field
           },
@@ -47,7 +57,7 @@ const Dashboard = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:1337/api/dogs',
+        'https://backend-dog-walking.onrender.com/api/dogs',
         {
           data: {
             name: name,
@@ -74,6 +84,7 @@ const Dashboard = () => {
   return (
     <div>
       <Nav/>
+    
       <h1 className="text-6xl font-bold text-center">Dashboard</h1>
       <h2 className="text-3xl font-bold text-center">Your Dog Profiles</h2>
       <div className="w-full  border grid grid-cols-1 lg:grid-cols-3 ">

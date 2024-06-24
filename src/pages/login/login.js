@@ -6,12 +6,13 @@ import { useRouter } from 'next/router';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:1337/api/auth/local', {
+      const response = await axios.post('https://backend-dog-walking.onrender.com/api/auth/local', {
         identifier: email,
         password: password,
       });
@@ -21,7 +22,7 @@ const Login = () => {
         localStorage.setItem('token', response.data.jwt);
 
         // Fetch user details to get userId
-        const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+        const userResponse = await axios.get('https://backend-dog-walking.onrender.com/api/users/me', {
           headers: { Authorization: `Bearer ${response.data.jwt}` }
         });
 
@@ -36,12 +37,17 @@ const Login = () => {
       }
     } catch (error) {
       console.error('An error occurred:', error.response);
+      setError('You need to register before you can login')
     }
   };
   return (
     <div>
+
+    
             <h2 className="text-3xl font-bold text-center">Login</h2>
-   
+   <section className="text-center text-red-500 text-3xl">
+   {error}
+   </section>
     <div className="flex items-center justify-center h-screen">
 
     <form className="flex flex-col p-5 border w-96" onSubmit={handleLogin}>

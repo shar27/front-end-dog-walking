@@ -1,36 +1,36 @@
 // pages/signup.js
-import { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
-  const [username, setUserName] = useState('');
-  console.log(username);
-  const [email, setEmail] = useState('');
-  
-  console.log(email);
-  const [password, setPassword] = useState('');
-  console.log(password);
-  const [error, setError] = useState('');
+  const [username, setUserName] = useState("");
+
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:1337/api/auth/local/register', {
-        
+      const response = await axios.post(
+        "https://backend-dog-walking.onrender.com/api/auth/local/register",
+        {
           username: username,
           email: email,
-          password: password
-        
-      });
+          password: password,
+        }
+      );
 
       if (response.status === 200 || response.status === 201) {
-        router.push('/dashboard/dashboard');
+        router.push("/login/login");
       }
     } catch (error) {
-      setError('Registration failed. Please try again.');
-      console.error('An error occurred:', error.response);
+      setError("Registration failed. Please try again.");
+      console.error("An error occurred:", error.response);
     }
   };
 
@@ -41,7 +41,9 @@ const SignUp = () => {
         {error && <p className="text-red-500 text-center">{error}</p>}
         <form onSubmit={handleSignUp}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700">Username</label>
+            <label htmlFor="name" className="block text-gray-700">
+              Username
+            </label>
             <input
               type="text"
               id="name"
@@ -52,7 +54,9 @@ const SignUp = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -63,7 +67,9 @@ const SignUp = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               id="password"
